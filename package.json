@@ -30,7 +30,7 @@
     "format:check": "prettier --check .",
     "check": "pnpm lint && pnpm typecheck && pnpm format:check",
     "prepare": "husky",
-    "docs:create": "typedoc"
+    "docs:generate": "typedoc"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
