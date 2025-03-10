@@ -21,10 +21,10 @@ importers:
         specifier: ^16.0.0
         version: 16.0.0
       husky:
-        specifier: '>=7'
+        specifier: ^9.1.7
         version: 9.1.7
       lint-staged:
-        specifier: '>=10'
+        specifier: ^15.4.3
         version: 15.4.3
       prettier:
         specifier: 3.5.3
