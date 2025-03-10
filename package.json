@@ -1,0 +1,49 @@
+{
+  "name": "@cis-oss/pushover",
+  "version": "0.0.1",
+  "description": "A client for Pushover, a service for sending notifications. Written in TypeScript. Supports sending to multiple users.",
+  "keywords": [
+    "pushover",
+    "notifications",
+    "mobile",
+    "push",
+    "notification"
+  ],
+  "homepage": "https://github.com/cis-oss/pushover#readme",
+  "bugs": "https://github.com/cis-oss/pushover/issues",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "github:cis-oss/pushover"
+  },
+  "author": {
+    "name": "Alix von Schirp",
+    "email": "hi@b00tload.space",
+    "url": "https://b00tload.space"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint --cache .",
+    "typecheck": "tsc --noEmit",
+    "format:check": "prettier --check .",
+    "check": "pnpm lint && pnpm typecheck && pnpm format:check",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "globals": "^16.0.0",
+    "prettier": "3.5.3",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.26.0",
+    "husky": ">=7",
+    "lint-staged": ">=10"
+  },
+  "private": true,
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx}": "eslint --cache --fix",
+    "*.{js,ts,jsx,tsx,json,css,md}": "prettier --write"
+  }
+}

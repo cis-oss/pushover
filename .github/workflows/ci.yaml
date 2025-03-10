@@ -1,0 +1,12 @@
+on: [push, pull_request]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Deps
+        run: npm install -g pnpm && pnpm install
+      - name: Typecheck & Lint
+        run: pnpm check
