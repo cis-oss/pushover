@@ -39,7 +39,7 @@ jobs:
       - run: tar -xf documentation.tar ./docs -C ./docs
 
       - name: Install Deps
-        run: npm install -g pnpm && pnpm
+        run: npm install -g pnpm && pnpm install
 
       - name: Build lib
         run: pnpm run build
