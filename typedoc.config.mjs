@@ -17,6 +17,8 @@ const config = {
     "typedoc-plugin-inline-sources",
     "typedoc-plugin-mdn-links",
     "typedoc-plugin-zod",
+    "typedoc-plugin-include-example",
+    "@shipgirl/typedoc-plugin-versions",
   ],
   footerTypedocVersion: true,
   footerLastModified: true,

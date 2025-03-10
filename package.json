@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
+    "@shipgirl/typedoc-plugin-versions": "^0.3.0",
     "@types/node": "^22.13.10",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
@@ -44,6 +45,7 @@
     "typedoc": "^0.27.9",
     "typedoc-plugin-coverage": "^3.4.1",
     "typedoc-plugin-extras": "^4.0.0",
+    "typedoc-plugin-include-example": "^2.0.2",
     "typedoc-plugin-inline-sources": "^1.2.1",
     "typedoc-plugin-mdn-links": "^5.0.1",
     "typedoc-plugin-zod": "^1.4.0",
