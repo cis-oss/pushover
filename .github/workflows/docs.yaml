@@ -76,6 +76,6 @@ jobs:
         run: |
           git config --global user.email "cis-oss@users.noreply.github.com"
           git config --global user.name "Continuous Integration"
-          git add .
+          git add docs/ -f
           git commit -m "CI updated the documentation"
           git push
