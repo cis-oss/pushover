@@ -7,10 +7,17 @@ settings:
 importers:
 
   .:
+    dependencies:
+      zod:
+        specifier: ^3.24.2
+        version: 3.24.2
     devDependencies:
       '@eslint/js':
         specifier: ^9.22.0
         version: 9.22.0
+      '@types/node':
+        specifier: ^22.13.10
+        version: 22.13.10
       eslint:
         specifier: ^9.22.0
         version: 9.22.0
@@ -32,6 +39,21 @@ importers:
       typedoc:
         specifier: ^0.27.9
         version: 0.27.9(typescript@5.8.2)
+      typedoc-plugin-coverage:
+        specifier: ^3.4.1
+        version: 3.4.1(typedoc@0.27.9(typescript@5.8.2))
+      typedoc-plugin-extras:
+        specifier: ^4.0.0
+        version: 4.0.0(typedoc@0.27.9(typescript@5.8.2))
+      typedoc-plugin-inline-sources:
+        specifier: ^1.2.1
+        version: 1.2.1(typedoc@0.27.9(typescript@5.8.2))
+      typedoc-plugin-mdn-links:
+        specifier: ^5.0.1
+        version: 5.0.1(typedoc@0.27.9(typescript@5.8.2))
+      typedoc-plugin-zod:
+        specifier: ^1.4.0
+        version: 1.4.0(typedoc@0.27.9(typescript@5.8.2))
       typescript:
         specifier: ^5.5.3
         version: 5.8.2
@@ -131,6 +153,9 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
+
+  '@types/node@22.13.10':
+    resolution: {integrity: sha512-I6LPUvlRH+O6VRUqYOcMudhaIdUVWfsjnZavnsraHvpBwaEyMN29ry+0UVJhImYL16xsscu0aske3yA+uPOWfw==}
 
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
@@ -703,6 +728,32 @@ packages:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
 
+  typedoc-plugin-coverage@3.4.1:
+    resolution: {integrity: sha512-V23DAwinAMpGMGcL1R1s8Snr26hrjfIdwGf+4jR/65ZdmeAN+yRX0onfx5JlembTQhR6AePQ/parfQNS0AZ64A==}
+    engines: {node: '>= 18'}
+    peerDependencies:
+      typedoc: 0.25.x || 0.26.x || 0.27.x
+
+  typedoc-plugin-extras@4.0.0:
+    resolution: {integrity: sha512-wqImx4K39u9+M4mkRvBxds8BMzlxKXrhHwtOAGvgtQza+E9+h9YmYJIJsnFyF06XRmv/02tQIBan76A3GdpZFg==}
+    peerDependencies:
+      typedoc: 0.27.x
+
+  typedoc-plugin-inline-sources@1.2.1:
+    resolution: {integrity: sha512-H+5AR5zhsGLB4ufrAQUO75bNUS74zoxDCRtFCEF2fEnrH62zM1YLi36x2utxWMCvrVRdpF1wLq2z0E3wxldmkQ==}
+    peerDependencies:
+      typedoc: 0.25.x || 0.26.x || 0.27.x
+
+  typedoc-plugin-mdn-links@5.0.1:
+    resolution: {integrity: sha512-eofdcc2nZZpipz/ubjG+7UYMi6Xu95svUwnZ+ClJh6NJdrv7kAOerL9N3iDOpo5kwQeK86GqPWwnv6LUGo5Wrw==}
+    peerDependencies:
+      typedoc: 0.27.x || 0.28.x
+
+  typedoc-plugin-zod@1.4.0:
+    resolution: {integrity: sha512-Mr4hoEfjIR1xjp0RqtEyfba03NDUE4jLvgErg0VQz9L60eCVLcUrV0x+71+B7rykDMexrTx0I9Yk6SS0PuSbKw==}
+    peerDependencies:
+      typedoc: 0.23.x || 0.24.x || 0.25.x || 0.26.x || 0.27.x || 0.28.x
+
   typedoc@0.27.9:
     resolution: {integrity: sha512-/z585740YHURLl9DN2jCWe6OW7zKYm6VoQ93H0sxZ1cwHQEQrUn5BJrEnkWhfzUdyO+BLGjnKUZ9iz9hKloFDw==}
     engines: {node: '>= 18'}
@@ -724,6 +775,9 @@ packages:
 
   uc.micro@2.1.0:
     resolution: {integrity: sha512-ARDJmphmdvUk6Glw7y9DQ2bFkKBHwQHLi2lsaH6PPmz/Ka9sFOBsBluozhDltWmnv9u/cF6Rt87znRTPV+yp/A==}
+
+  undici-types@6.20.0:
+    resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
 
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
@@ -749,6 +803,9 @@ packages:
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  zod@3.24.2:
+    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
 
 snapshots:
 
@@ -846,6 +903,10 @@ snapshots:
       '@types/unist': 3.0.3
 
   '@types/json-schema@7.0.15': {}
+
+  '@types/node@22.13.10':
+    dependencies:
+      undici-types: 6.20.0
 
   '@types/unist@3.0.3': {}
 
@@ -1413,6 +1474,26 @@ snapshots:
     dependencies:
       prelude-ls: 1.2.1
 
+  typedoc-plugin-coverage@3.4.1(typedoc@0.27.9(typescript@5.8.2)):
+    dependencies:
+      typedoc: 0.27.9(typescript@5.8.2)
+
+  typedoc-plugin-extras@4.0.0(typedoc@0.27.9(typescript@5.8.2)):
+    dependencies:
+      typedoc: 0.27.9(typescript@5.8.2)
+
+  typedoc-plugin-inline-sources@1.2.1(typedoc@0.27.9(typescript@5.8.2)):
+    dependencies:
+      typedoc: 0.27.9(typescript@5.8.2)
+
+  typedoc-plugin-mdn-links@5.0.1(typedoc@0.27.9(typescript@5.8.2)):
+    dependencies:
+      typedoc: 0.27.9(typescript@5.8.2)
+
+  typedoc-plugin-zod@1.4.0(typedoc@0.27.9(typescript@5.8.2)):
+    dependencies:
+      typedoc: 0.27.9(typescript@5.8.2)
+
   typedoc@0.27.9(typescript@5.8.2):
     dependencies:
       '@gerrit0/mini-shiki': 1.27.2
@@ -1436,6 +1517,8 @@ snapshots:
 
   uc.micro@2.1.0: {}
 
+  undici-types@6.20.0: {}
+
   uri-js@4.4.1:
     dependencies:
       punycode: 2.3.1
@@ -1455,3 +1538,5 @@ snapshots:
   yaml@2.7.0: {}
 
   yocto-queue@0.1.0: {}
+
+  zod@3.24.2: {}
