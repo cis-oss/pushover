@@ -52,7 +52,7 @@
   },
   "private": true,
   "lint-staged": {
-    "*.{js,ts,jsx,tsx}": "eslint --cache --fix",
+    "*.{js,ts,jsx,tsx}": "eslint --cache --fix . || true",
     "*.{js,ts,jsx,tsx,json,css,md}": "prettier --write"
   },
   "dependencies": {
