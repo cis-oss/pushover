@@ -57,5 +57,8 @@
   },
   "dependencies": {
     "zod": "^3.24.2"
+  },
+  "husky": {
+    "shell": "bash"
   }
 }
