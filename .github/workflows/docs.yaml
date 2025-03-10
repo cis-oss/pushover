@@ -38,12 +38,12 @@ jobs:
           name: documentation
       - run: tar -xf documentation.tar ./docs -C ./docs
 
+      - run: npm install -g pnpm && pnpm install
       - name: Build
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-          cache: 'npm'
-      - run: npm install -g pnpm && pnpm install
+          cache: 'pnpm'
       - run: pnpm run build # set up 'build' script in your package.json
 
       - name: Build documents
