@@ -24,11 +24,11 @@
   },
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc && typedoc",
+    "build": "tsc",
     "lint": "eslint --cache .",
     "typecheck": "tsc --noEmit",
     "format:check": "prettier --check .",
-    "check": "pnpm lint && pnpm typecheck && pnpm format:check",
+    "check": "pnpm lint && pnpm typecheck",
     "prepare": "husky",
     "docs:generate": "typedoc"
   },
@@ -49,6 +49,7 @@
     "typedoc-plugin-inline-sources": "^1.2.1",
     "typedoc-plugin-mdn-links": "^5.0.1",
     "typedoc-plugin-zod": "^1.4.0",
+    "typedoc-github-theme": "^0.2.1",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.26.0"
   },

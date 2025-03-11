@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      typedoc-github-theme:
+        specifier: ^0.2.1
+        version: 0.2.1(typedoc@0.27.9(typescript@5.8.2))
       zod:
         specifier: ^3.24.2
         version: 3.24.2
@@ -749,6 +752,12 @@ packages:
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
+
+  typedoc-github-theme@0.2.1:
+    resolution: {integrity: sha512-pOgsS9CVAOO3JxQ1V0ocDkrPCULpoWg1OzRmn/mOlyG+vEYwUAp5DAoKrGECdNIomycxcisc8ovcMX0nHDgWTA==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      typedoc: ^0.27.6
 
   typedoc-plugin-coverage@3.4.1:
     resolution: {integrity: sha512-V23DAwinAMpGMGcL1R1s8Snr26hrjfIdwGf+4jR/65ZdmeAN+yRX0onfx5JlembTQhR6AePQ/parfQNS0AZ64A==}
@@ -1524,6 +1533,10 @@ snapshots:
   type-check@0.4.0:
     dependencies:
       prelude-ls: 1.2.1
+
+  typedoc-github-theme@0.2.1(typedoc@0.27.9(typescript@5.8.2)):
+    dependencies:
+      typedoc: 0.27.9(typescript@5.8.2)
 
   typedoc-plugin-coverage@3.4.1(typedoc@0.27.9(typescript@5.8.2)):
     dependencies:
