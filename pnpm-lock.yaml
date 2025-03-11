@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      typedoc-github-theme:
-        specifier: ^0.2.1
-        version: 0.2.1(typedoc@0.27.9(typescript@5.8.2))
       zod:
         specifier: ^3.24.2
         version: 3.24.2
@@ -45,6 +42,9 @@ importers:
       typedoc:
         specifier: ^0.27.9
         version: 0.27.9(typescript@5.8.2)
+      typedoc-github-theme:
+        specifier: ^0.2.1
+        version: 0.2.1(typedoc@0.27.9(typescript@5.8.2))
       typedoc-plugin-coverage:
         specifier: ^3.4.1
         version: 3.4.1(typedoc@0.27.9(typescript@5.8.2))
