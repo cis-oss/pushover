@@ -152,6 +152,7 @@ export class Pushover {
             const response = JSON.parse(data) as PushoverResponse;
             resolve(response);
           } catch (error) {
+            console.error(error);
             reject(new Error(`Failed to parse response: ${data}`));
           }
         });
