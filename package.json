@@ -1,36 +1,30 @@
 {
   "name": "@cis-oss/pushover",
-  "version": "0.0.1",
-  "type": "module",
   "description": "A client for Pushover, a service for sending notifications. Written in TypeScript. Supports sending to multiple users.",
-  "keywords": [
-    "pushover",
-    "notifications",
-    "mobile",
-    "push",
-    "notification"
-  ],
-  "homepage": "https://github.com/cis-oss/pushover#readme",
-  "bugs": "https://github.com/cis-oss/pushover/issues",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "github:cis-oss/pushover"
-  },
+  "homepage": "https://cis-oss.github.io/pushover",
+  "version": "0.0.1",
+  "main": "dist/index.js",
   "author": {
-    "name": "Alix von Schirp",
     "email": "hi@b00tload.space",
+    "name": "Alix von Schirp",
     "url": "https://b00tload.space"
   },
-  "main": "dist/index.js",
-  "scripts": {
-    "build": "tsc",
-    "lint": "eslint --cache .",
-    "typecheck": "tsc --noEmit",
-    "format:check": "prettier --check .",
-    "check": "pnpm lint && pnpm typecheck",
-    "prepare": "husky",
-    "docs:generate": "typedoc"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cis-oss/pushover.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cis-oss/pushover/issues"
+  },
+  "keywords": [
+    "mobile",
+    "notification",
+    "notifications",
+    "push",
+    "pushover"
+  ],
+  "dependencies": {
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
@@ -38,30 +32,40 @@
     "@types/node": "^22.13.10",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
+    "finepack": "^2.12.7",
     "globals": "^16.0.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",
     "prettier": "3.5.3",
     "typedoc": "^0.27.9",
+    "typedoc-github-theme": "^0.2.1",
     "typedoc-plugin-coverage": "^3.4.1",
     "typedoc-plugin-extras": "^4.0.0",
     "typedoc-plugin-include-example": "^2.0.2",
     "typedoc-plugin-inline-sources": "^1.2.1",
     "typedoc-plugin-mdn-links": "^5.0.1",
     "typedoc-plugin-zod": "^1.4.0",
-    "typedoc-github-theme": "^0.2.1",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.26.0"
   },
+  "scripts": {
+    "build": "tsc",
+    "check": "pnpm lint && pnpm typecheck",
+    "docs:generate": "typedoc",
+    "format:check": "prettier --check .",
+    "lint": "eslint --cache .",
+    "prepare": "husky",
+    "typecheck": "tsc --noEmit"
+  },
   "private": true,
+  "license": "MIT",
+  "husky": {
+    "shell": "bash"
+  },
   "lint-staged": {
+    "package.json": "finepack",
     "*.{js,ts,jsx,tsx}": "eslint --cache --fix . || true",
     "*.{js,ts,jsx,tsx,json,css,md}": "prettier --write"
   },
-  "dependencies": {
-    "zod": "^3.24.2"
-  },
-  "husky": {
-    "shell": "bash"
-  }
+  "type": "module"
 }
