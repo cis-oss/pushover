@@ -1,20 +1,106 @@
 import https from "node:https";
 import { URLSearchParams } from "node:url";
+import { z } from "zod";
 
-export interface PushoverMessage {
-  message: string;
-  title?: string;
-  link?: {
-    url: string;
-    title?: string;
-  };
-  priority?: -2 | -1 | 0 | 1 | 2;
-  sound?: string;
-  timestamp?: number;
-  html?: 0 | 1;
-  monospace?: 0 | 1;
-  ttl?: number;
-}
+const MessageSchema = z
+  .object({
+    /**
+     * The message sent to the user.
+     */
+    message: z.string().min(3),
+    /**
+     * An optional title.
+     */
+    title: z.string().optional(),
+    /**
+     * A link attached to the message.
+     * Can be either the link or an object containing the link and an optional title.
+     */
+    link: z
+      .string()
+      .url()
+      .or(
+        z.object({
+          /**
+           * The url of the link
+           */
+          url: z.string().url(),
+          /**
+           * The title displayed as the link
+           */
+          title: z.string().optional(),
+        }),
+      )
+      .optional(),
+    /**
+     * Sets notification setting for the message.
+     *
+     * -2: Message only, no notification. May increment notification bubble.
+     * -1: Silent notification
+     * 0: default notification
+     * 1: ignores user's quiet hours.
+     * 2: requires acknowledgement
+     */
+    priority: z
+      .union([
+        z.literal(-2),
+        z.literal(-1),
+        z.literal(0),
+        z.literal(1),
+        z.literal(2),
+      ])
+      .default(0),
+    emergencyOpts: z
+      .object({
+        repeat: z.number().min(30),
+        expire: z.number().max(10800),
+        callback: z.string().url().optional(),
+        tags: z.string().array().optional(),
+      })
+      .optional(),
+    sound: z.string().optional(),
+    timestamp: z.number().optional(),
+    html: z.boolean().default(false),
+    monospace: z.boolean().default(false),
+    ttl: z.number().optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.priority == 2 && !data.emergencyOpts) return false;
+      return true;
+    },
+    {
+      path: ["priority", "emergencyOpts"],
+      message: "If priority is set to 2, emergencyOpts must be included.",
+    },
+  )
+  .refine(
+    (data) => {
+      if (data.html && data.monospace) return false;
+      return true;
+    },
+    {
+      path: ["html", "monospace"],
+      message: "html and monospace are mutually exclusive.",
+    },
+  );
+
+export type PushoverMessage = z.infer<typeof MessageSchema>;
+
+// export interface PushoverMessage {
+//   message: string;
+//   title?: string;
+//   link?: {
+//     url: string;
+//     title?: string;
+//   } | string;
+//   priority: -2 | -1 | 0 | 1 | 2;
+//   sound?: string;
+//   timestamp?: number;
+//   html: boolean;
+//   monospace: boolean;
+//   ttl?: number;
+// }
 
 export interface PushoverResponse {
   status: number;
@@ -51,6 +137,8 @@ export class Pushover {
     options: SendOptions = {},
   ): Promise<PushoverResponse[]> {
     const recipients = this.getRecipients(options);
+
+    console.log(MessageSchema.parse(message));
 
     if (recipients.length === 0) {
       throw new Error(
@@ -102,22 +190,31 @@ export class Pushover {
     params.append("user", user);
 
     // Add message properties
-    Object.entries(message).forEach(([key, value]) => {
-      if (value !== undefined) {
-        if (key === "link") {
-          if (typeof value === "string") {
-            params.append("url", value);
-            return;
-          }
-          params.append("url", value.url);
-          if (value.title) {
-            params.append("url_title", value.title);
-          }
-          return;
-        }
-        params.append(key, value.toString());
+    params.append("message", message.message);
+    if (message.title) params.append("title", message.title);
+    params.append("priority", "" + message.priority);
+    if (message.priority === 2 && message.emergencyOpts) {
+      params.append("repeat", String(message.emergencyOpts.repeat));
+      params.append("expire", String(message.emergencyOpts.expire));
+      if (message.emergencyOpts.callback)
+        params.append("callback", message.emergencyOpts.callback);
+      if (message.emergencyOpts.tags)
+        params.append("tags", message.emergencyOpts.tags.join());
+    }
+    if (message.link) {
+      if (typeof message.link === "string") {
+        params.append("url", message.link);
+      } else {
+        params.append("url", message.link.url);
+        if (message.link.title) params.append("title", message.link.title);
       }
-    });
+    }
+    if (message.html) params.append("html", "1");
+    if (message.monospace) params.append("monospace", "1");
+    if (message.sound) params.append("sound", message.sound);
+    if (message.timestamp)
+      params.append("timestamp", String(message.timestamp));
+    if (message.ttl) params.append("ttl", String(message.ttl));
 
     // Add device if specified
     if (device) {
