@@ -49,6 +49,9 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.26.0"
   },
+  "files": [
+    "dist/**/*.{js,ts,map}"
+  ],
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
