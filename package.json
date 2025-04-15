@@ -3,6 +3,7 @@
   "description": "A client for Pushover, a service for sending notifications. Written in TypeScript. Supports sending to multiple users.",
   "homepage": "https://cis-oss.github.io/pushover",
   "version": "0.0.1",
+  "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "author": {
     "email": "hi@b00tload.space",
