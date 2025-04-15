@@ -32,6 +32,7 @@
     "@types/node": "^22.13.10",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-only-warn": "^1.1.0",
     "finepack": "^2.12.7",
     "globals": "^16.0.0",
     "husky": "^9.1.7",
@@ -65,7 +66,7 @@
   },
   "lint-staged": {
     "package.json": "finepack",
-    "*.{js,ts,jsx,tsx}": "cmd /c eslint --cache --fix . || exit 0",
+    "*.{js,ts,jsx,tsx}": "eslint --cache --fix .",
     "*.{js,ts,jsx,tsx,json,css,md}": "prettier --write"
   },
   "type": "module"
