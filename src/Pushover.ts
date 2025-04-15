@@ -87,10 +87,18 @@ const MessageSchema = z
 
 export type PushoverMessage = z.infer<typeof MessageSchema>;
 
-export interface PushoverResponse {
+interface PushoverResponse {
   status: number;
+}
+
+export interface PushoverMessageResponse extends PushoverResponse {
   request: string;
   errors?: string[];
+}
+
+export interface PushoverValidationResponse extends PushoverResponse {
+  devices?: string[];
+  licenses?: string[];
 }
 
 export interface PushoverConfig {
@@ -104,10 +112,15 @@ export interface SendOptions {
   verbose?: boolean;
 }
 
+export interface ValidateOptions {
+  user?: string;
+  deviceName?: string;
+}
+
 export class Pushover {
   private token: string;
   private defaultUser?: string;
-  private apiUrl = "https://api.pushover.net/1/messages.json";
+  private apiUrl = "https://api.pushover.net/1/";
 
   constructor(config: PushoverConfig) {
     this.token = config.token;
@@ -210,10 +223,13 @@ export class Pushover {
       }
     }
 
-    return this.makeRequest(params);
+    return this.makeRequest("messages.json", params);
   }
 
-  private makeRequest(params: URLSearchParams): Promise<PushoverResponse> {
+  private makeRequest(
+    url: string,
+    params: URLSearchParams,
+  ): Promise<PushoverResponse> {
     return new Promise((resolve, reject) => {
       const options = {
         method: "POST",
@@ -222,7 +238,7 @@ export class Pushover {
         },
       };
 
-      const req = https.request(this.apiUrl, options, (res) => {
+      const req = https.request(this.apiUrl + url, options, (res) => {
         let data = "";
 
         res.on("data", (chunk) => {
@@ -232,7 +248,11 @@ export class Pushover {
         res.on("end", () => {
           try {
             const response = JSON.parse(data) as PushoverResponse;
-            resolve(response);
+            if (url === "messages.json")
+              resolve(response as PushoverMessageResponse);
+            else if (url == "users/validate.json")
+              resolve(response as PushoverValidationResponse);
+            else resolve(response);
           } catch (error) {
             console.error(error);
             reject(new Error(`Failed to parse response: ${data}`));
@@ -247,5 +267,20 @@ export class Pushover {
       req.write(params.toString());
       req.end();
     });
+  }
+
+  /**
+   * Validate a user and device.
+   *
+   * If only user is provided, it will validate the user and return.
+   */
+  validate(options: ValidateOptions): Promise<PushoverValidationResponse> {
+    const params = new URLSearchParams();
+
+    params.append("token", this.token);
+    params.append("user", options.user ?? this.defaultUser ?? "");
+    if (options.deviceName) params.append("device", options.deviceName);
+
+    return this.makeRequest("users/validate.json", params);
   }
 }
