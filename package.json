@@ -50,6 +50,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "build:watch": "tsc --watch",
     "check": "pnpm lint && pnpm typecheck",
     "docs:generate": "typedoc",
     "format:check": "prettier --check .",
