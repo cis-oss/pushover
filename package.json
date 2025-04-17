@@ -42,6 +42,7 @@
     "lint-staged": "^15.4.3",
     "prettier": "3.5.3",
     "ts-jest": "^29.2.6",
+    "tsx": "^4.19.3",
     "typedoc": "^0.27.9",
     "typedoc-github-theme": "^0.2.1",
     "typedoc-plugin-coverage": "^3.4.1",
