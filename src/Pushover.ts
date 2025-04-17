@@ -88,16 +88,33 @@ export type PushoverMessage = z.infer<typeof MessageSchema>;
 
 interface PushoverResponse {
   status: number;
+  request: string;
 }
 
 export interface PushoverMessageResponse extends PushoverResponse {
-  request: string;
   errors?: string[];
+  receipt?: string;
 }
 
 export interface PushoverValidationResponse extends PushoverResponse {
   devices?: string[];
   licenses?: string[];
+}
+
+export interface PushoverReceiptResponse extends PushoverResponse {
+  acknowledged: boolean;
+  acknowledged_at: number;
+  acknowledged_by: string;
+  acknowledged_by_device: string;
+  last_delivered_at: number;
+  expired: boolean;
+  expired_at: number;
+  called_back: boolean;
+  called_back_at: number;
+}
+
+export interface PushoverTagCancellationResponse extends PushoverResponse {
+  canceled: number;
 }
 
 export interface SendOptions {
@@ -129,10 +146,8 @@ export class Pushover {
   public async send(
     message: PushoverMessage,
     options: SendOptions,
-  ): Promise<PushoverResponse[]> {
+  ): Promise<PushoverMessageResponse[]> {
     return new Promise((resolve, reject) => {
-      console.log(MessageSchema.parse(message));
-
       if (options.recipients.length === 0) {
         reject("No recipients specified.");
       }
@@ -156,7 +171,7 @@ export class Pushover {
   private async sendToSingleRecipient(
     message: PushoverMessage,
     user: PushoverUser,
-  ): Promise<PushoverResponse> {
+  ): Promise<PushoverMessageResponse> {
     const params = new URLSearchParams();
 
     // Add token and user
@@ -191,16 +206,17 @@ export class Pushover {
       params.append("timestamp", String(message.timestamp));
     if (message.ttl) params.append("ttl", String(message.ttl));
 
-    return this.makeRequest("messages.json", params);
+    return this.makeRequest("messages.json", "POST", params);
   }
 
   private makeRequest(
     url: string,
+    method: "POST" | "GET",
     params: URLSearchParams,
   ): Promise<PushoverResponse> {
     return new Promise((resolve, reject) => {
       const options = {
-        method: "POST",
+        method: method,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
@@ -216,11 +232,7 @@ export class Pushover {
         res.on("end", () => {
           try {
             const response = JSON.parse(data) as PushoverResponse;
-            if (url === "messages.json")
-              resolve(response as PushoverMessageResponse);
-            else if (url == "users/validate.json")
-              resolve(response as PushoverValidationResponse);
-            else resolve(response);
+            resolve(response);
           } catch (error) {
             console.error(error);
             reject(new Error(`Failed to parse response: ${data}`));
@@ -249,6 +261,31 @@ export class Pushover {
     params.append("user", options.user ?? "");
     if (options.deviceName) params.append("device", options.deviceName);
 
-    return this.makeRequest("users/validate.json", params);
+    return this.makeRequest("users/validate.json", "POST", params);
+  }
+
+  checkReceipt(receipt: string): Promise<PushoverReceiptResponse> {
+    const params = new URLSearchParams();
+    return this.makeRequest(
+      `receipts/${receipt}.json?token=${this.token}`,
+      "GET",
+      params,
+    ) as Promise<PushoverReceiptResponse>;
+  }
+
+  cancelRetries(receipt: string): Promise<PushoverResponse> {
+    const params = new URLSearchParams();
+    params.append("token", this.token);
+    return this.makeRequest(`receipts/${receipt}/cancel.json`, "POST", params);
+  }
+
+  cancelRetriesByTag(tag: string): Promise<PushoverTagCancellationResponse> {
+    const params = new URLSearchParams();
+    params.append("token", this.token);
+    return this.makeRequest(
+      `receipts/cancel_by_tag/${tag}.json`,
+      "POST",
+      params,
+    ) as Promise<PushoverTagCancellationResponse>;
   }
 }
