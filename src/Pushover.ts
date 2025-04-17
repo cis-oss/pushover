@@ -60,8 +60,8 @@ const MessageSchema = z
       .optional(),
     sound: z.string().optional(),
     timestamp: z.number().optional(),
-    html: z.boolean().optional(),
-    monospace: z.boolean().optional(),
+    html: z.boolean().optional().default(false),
+    monospace: z.boolean().optional().default(false),
     ttl: z.number().optional(),
   })
   .refine(
@@ -84,7 +84,9 @@ const MessageSchema = z
     },
   );
 
-export type PushoverMessage = z.infer<typeof MessageSchema>;
+export type PushoverMessage = z.input<typeof MessageSchema>;
+
+type PushoverMessageParsed = z.output<typeof MessageSchema>;
 
 interface PushoverResponse {
   status: number;
@@ -152,16 +154,27 @@ export class Pushover {
         reject("No recipients specified.");
       }
 
+      const {
+        success,
+        error,
+        data: parsedMessage,
+      } = MessageSchema.safeParse(message);
+
+      if (!success) {
+        reject(`Message validation failed: ${error}`);
+        return;
+      }
+
       if (options.verbose) {
         console.log("Verbose mode enabled. Logging message and options:");
-        console.log(message);
+        console.log(parsedMessage);
         console.log(options);
         console.log("----------------------");
         console.log("Sending message...");
       }
 
       const promises = options.recipients.map((recipient) =>
-        this.sendToSingleRecipient(message, recipient),
+        this.sendToSingleRecipient(parsedMessage, recipient),
       );
 
       resolve(Promise.all(promises));
@@ -169,7 +182,7 @@ export class Pushover {
   }
 
   private async sendToSingleRecipient(
-    message: PushoverMessage,
+    message: PushoverMessageParsed,
     user: PushoverUser,
   ): Promise<PushoverMessageResponse> {
     const params = new URLSearchParams();
