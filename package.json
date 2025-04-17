@@ -78,5 +78,6 @@
     "*.{js,ts,jsx,tsx}": "eslint --cache --fix .",
     "*.{js,ts,jsx,tsx,json,css,md}": "prettier --write"
   },
+  "packageManager": "pnpm@10.6.5",
   "type": "module"
 }
