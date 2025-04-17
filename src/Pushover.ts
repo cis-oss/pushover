@@ -52,7 +52,7 @@ const MessageSchema = z
       .default(0),
     emergencyOpts: z
       .object({
-        repeat: z.number().min(30),
+        retry: z.number().min(30),
         expire: z.number().max(10800),
         callback: z.string().url().optional(),
         tags: z.string().array().optional(),
@@ -60,8 +60,8 @@ const MessageSchema = z
       .optional(),
     sound: z.string().optional(),
     timestamp: z.number().optional(),
-    html: z.boolean().default(false),
-    monospace: z.boolean().default(false),
+    html: z.boolean().optional(),
+    monospace: z.boolean().optional(),
     ttl: z.number().optional(),
   })
   .refine(
@@ -76,8 +76,7 @@ const MessageSchema = z
   )
   .refine(
     (data) => {
-      if (data.html && data.monospace) return false;
-      return true;
+      return !(data.html && data.monospace);
     },
     {
       path: ["html", "monospace"],
@@ -101,30 +100,27 @@ export interface PushoverValidationResponse extends PushoverResponse {
   licenses?: string[];
 }
 
-export interface PushoverConfig {
-  token: string;
-  defaultUser?: string;
-}
-
 export interface SendOptions {
-  recipients?: string | string[];
-  device?: string | string[];
+  recipients: PushoverUser[];
   verbose?: boolean;
 }
 
+export interface PushoverUser {
+  id: string;
+  devices?: string[];
+}
+
 export interface ValidateOptions {
-  user?: string;
+  user: string;
   deviceName?: string;
 }
 
 export class Pushover {
   private token: string;
-  private defaultUser?: string;
   private apiUrl = "https://api.pushover.net/1/";
 
-  constructor(config: PushoverConfig) {
-    this.token = config.token;
-    this.defaultUser = config.defaultUser;
+  constructor(token: string) {
+    this.token = token;
   }
 
   /**
@@ -132,67 +128,48 @@ export class Pushover {
    */
   public async send(
     message: PushoverMessage,
-    options: SendOptions = {},
+    options: SendOptions,
   ): Promise<PushoverResponse[]> {
-    const recipients = this.getRecipients(options);
+    return new Promise((resolve, reject) => {
+      console.log(MessageSchema.parse(message));
 
-    console.log(MessageSchema.parse(message));
+      if (options.recipients.length === 0) {
+        reject("No recipients specified.");
+      }
 
-    if (recipients.length === 0) {
-      throw new Error(
-        "No recipients specified. Provide recipients in options or set a defaultUser.",
+      if (options.verbose) {
+        console.log("Verbose mode enabled. Logging message and options:");
+        console.log(message);
+        console.log(options);
+        console.log("----------------------");
+        console.log("Sending message...");
+      }
+
+      const promises = options.recipients.map((recipient) =>
+        this.sendToSingleRecipient(message, recipient),
       );
-    }
 
-    if (options.verbose) {
-      console.log("Verbose mode enabled. Logging message and options:");
-      console.log(message);
-      console.log(options);
-      console.log("----------------------");
-      console.log("Sending message...");
-    }
-
-    const promises = recipients.map((recipient) =>
-      this.sendToSingleRecipient(message, recipient, options.device),
-    );
-
-    const results = await Promise.all(promises);
-
-    // Combine results
-    const combinedResponse: PushoverResponse[] = results.map(
-      (result) => result,
-    );
-
-    return combinedResponse;
-  }
-
-  private getRecipients(options: SendOptions): string[] {
-    const { recipients } = options;
-
-    if (recipients) {
-      return Array.isArray(recipients) ? recipients : [recipients];
-    }
-
-    return this.defaultUser ? [this.defaultUser] : [];
+      resolve(Promise.all(promises));
+    });
   }
 
   private async sendToSingleRecipient(
     message: PushoverMessage,
-    user: string,
-    device?: string | string[],
+    user: PushoverUser,
   ): Promise<PushoverResponse> {
     const params = new URLSearchParams();
 
     // Add token and user
     params.append("token", this.token);
-    params.append("user", user);
+    params.append("user", user.id);
+    params.append("device", user.devices?.join(",") ?? "");
 
     // Add message properties
     params.append("message", message.message);
     if (message.title) params.append("title", message.title);
     params.append("priority", "" + message.priority);
     if (message.priority === 2 && message.emergencyOpts) {
-      params.append("repeat", String(message.emergencyOpts.repeat));
+      params.append("retry", String(message.emergencyOpts.retry));
       params.append("expire", String(message.emergencyOpts.expire));
       if (message.emergencyOpts.callback)
         params.append("callback", message.emergencyOpts.callback);
@@ -204,7 +181,7 @@ export class Pushover {
         params.append("url", message.link);
       } else {
         params.append("url", message.link.url);
-        if (message.link.title) params.append("title", message.link.title);
+        if (message.link.title) params.append("url_title", message.link.title);
       }
     }
     if (message.html) params.append("html", "1");
@@ -213,15 +190,6 @@ export class Pushover {
     if (message.timestamp)
       params.append("timestamp", String(message.timestamp));
     if (message.ttl) params.append("ttl", String(message.ttl));
-
-    // Add device if specified
-    if (device) {
-      if (Array.isArray(device)) {
-        params.append("device", device.join(","));
-      } else {
-        params.append("device", device);
-      }
-    }
 
     return this.makeRequest("messages.json", params);
   }
@@ -278,7 +246,7 @@ export class Pushover {
     const params = new URLSearchParams();
 
     params.append("token", this.token);
-    params.append("user", options.user ?? this.defaultUser ?? "");
+    params.append("user", options.user ?? "");
     if (options.deviceName) params.append("device", options.deviceName);
 
     return this.makeRequest("users/validate.json", params);
