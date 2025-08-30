@@ -168,7 +168,7 @@ const MessageSchema = z
  *   priority: 2,
  *   emergencyOpts: {
  *     retry: 60, // Retry every 60 seconds
- *     expire: 3600 // Expire after 1 hour
+ *     expire: 3600, // Expire after 1 hour
  *     tags: ["critical", "infra"]
  *   },
  * };
