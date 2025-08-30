@@ -577,7 +577,7 @@ export class Pushover {
     const params = new URLSearchParams();
 
     params.append("token", this.token);
-    params.append("user", options.user ?? "");
+    params.append("user", options.user);
     if (options.deviceName) params.append("device", options.deviceName);
 
     return this.makeRequest<PushoverValidationResponse>(
