@@ -500,6 +500,7 @@ export class Pushover {
           if (verbose) {
             console.log("Received response status:", res.statusCode);
             console.log("Received response headers:", res.headers);
+            console.log(
               `Received response body (length: ${data.length}): ${data}`,
             );
           }
