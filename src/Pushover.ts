@@ -284,25 +284,34 @@ export interface PushoverRecipient {
  *
  * @example
  * ```typescript
- * import { Pushover } from '@cis-oss/pushover';
+ * import { Pushover } from "@cis-oss/pushover";
  *
  * // Initialize the client
- * const pushover = new Pushover('YOUR_APP_API_TOKEN');
+ * const pushover = new Pushover("YOUR_APP_API_TOKEN");
  *
  * // Define recipients
- * const recipients = [{ id: 'USER_KEY_1' }, {id: 'USER_KEY_2', devices: ['DEVICE_1', 'DEVICE_2']}, { id: 'GROUP_KEY_1' }];
+ * const recipients = [
+ *   { id: "USER_KEY_1" },
+ *   { id: "USER_KEY_2", devices: ["DEVICE_1", "DEVICE_2"] },
+ *   { id: "GROUP_KEY_1" },
+ * ];
  *
  * // Send a basic message
- * const responses = pushover.send({
+ * const responses = pushover.send(
+ *   {
  *     message: "Hello from the library!",
- *     title: "Test Message"
- *   }, { recipients });
+ *     title: "Test Message",
+ *   },
+ *   { recipients },
+ * );
  *
- * responses.then((responses) => {
- *   console.log('Messages sent:', responses);
- * }).catch( (error) => {
- *   console.error('Failed to send messages:', error);
- * })
+ * responses
+ *   .then((responses) => {
+ *     console.log("Messages sent:", responses);
+ *   })
+ *   .catch((error) => {
+ *     console.error("Failed to send messages:", error);
+ *   });
  * ```
  */
 export class Pushover {
@@ -330,21 +339,31 @@ export class Pushover {
    * ```typescript
    * // Send a message to a specific user and device
    * const userRecipient: PushoverRecipient = { id: "user-key", devices: ["phone"] };
-   * await pushover.send({ message: "Targeted message" }, { recipients: [userRecipient] });
+   * await pushover.send(
+   *   { message: "Targeted message" },
+   *   { recipients: [userRecipient] },
+   * );
    *
    * // Send an emergency priority message and handle the receipt
-   * const responses = pushover.send({
-   *   message: "Emergency alert!",
-   *   priority: 2,
-   *   emergencyOpts: { retry: 30, expire: 3600 }
-   * }, { recipients: [userRecipient] });
+   * const responses = pushover.send(
+   *   {
+   *     message: "Emergency alert!",
+   *     priority: 2,
+   *     emergencyOpts: { retry: 30, expire: 3600 },
+   *   },
+   *   { recipients: [userRecipient] },
+   * );
    *
-   * responses.then((responses) => {
-   *   console.log(`Emergency message sent. Receipts: ${responses.map((response) => response.receipt).join(", ")}`);
-   *   // Store the receipt to check status or cancel later
-   * }).catch((error) => {
-   *   console.error("Failed to send emergency message:", error);
-   * });
+   * responses
+   *   .then((responses) => {
+   *     console.log(
+   *       `Emergency message sent. Receipts: ${responses.map((response) => response.receipt).join(", ")}`,
+   *     );
+   *     // Store the receipt to check status or cancel later
+   *   })
+   *   .catch((error) => {
+   *     console.error("Failed to send emergency message:", error);
+   *   });
    * ```
    */
   public async send(
@@ -565,13 +584,21 @@ export class Pushover {
    * // Validate a user key
    * const validation = await pushover.validate({ user: "user-key" });
    * if (validation.status === 1) {
-   *   console.log("User is valid. Devices:", validation.devices, ", Licenses:", validation.licenses);
+   *   console.log(
+   *     "User is valid. Devices:",
+   *     validation.devices,
+   *     ", Licenses:",
+   *     validation.licenses,
+   *   );
    * } else {
    *   console.error("Validation failed:", validation.errors);
    * }
    *
    * // Validate a user and device
-   * const deviceValidation = await pushover.validate({ user: "user-key", deviceName: "phone" });
+   * const deviceValidation = await pushover.validate({
+   *   user: "user-key",
+   *   deviceName: "phone",
+   * });
    * console.log("Device validation status:", deviceValidation.status);
    * ```
    */
@@ -603,7 +630,9 @@ export class Pushover {
    * const receiptId = "RECEIPT_ID_FROM_SEND_RESPONSE";
    * const status = await pushover.checkReceipt(receiptId);
    * if (status.status === 1) {
-   *   console.log(`Acknowledged: ${status.acknowledged} by ${status.acknowledged_by}`);
+   *   console.log(
+   *     `Acknowledged: ${status.acknowledged} by ${status.acknowledged_by}`,
+   *   );
    *   console.log(`Expired: ${status.expired}`);
    * } else {
    *   console.error("Failed to check receipt:", status.errors);
@@ -665,7 +694,9 @@ export class Pushover {
    * const tagName = "critical-db-alert";
    * const cancelByTagResponse = await pushover.cancelRetriesByTag(tagName);
    * if (cancelByTagResponse.status === 1) {
-   *   console.log(`Successfully cancelled ${cancelByTagResponse.canceled} messages with tag: ${tagName}`);
+   *   console.log(
+   *     `Successfully cancelled ${cancelByTagResponse.canceled} messages with tag: ${tagName}`,
+   *   );
    * } else {
    *   console.error("Failed to cancel by tag:", cancelByTagResponse.errors);
    * }
