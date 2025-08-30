@@ -354,6 +354,7 @@ export class Pushover {
     return new Promise((resolve, reject) => {
       if (options.recipients.length === 0) {
         reject(new Error("No recipients specified."));
+        return;
       }
 
       const {
