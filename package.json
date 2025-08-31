@@ -60,11 +60,13 @@
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "check": "pnpm lint && pnpm typecheck",
+    "check": "pnpm run lint && pnpm run typecheck",
+    "clean": "shx rm -rf dist/",
     "docs:generate": "typedoc",
     "format:check": "prettier --check .",
     "lint": "eslint --cache .",
     "prepare": "husky",
+    "prepublishOnly": "pnpm run clean && pnpm run build",
     "test": "jest",
     "typecheck": "tsc --noEmit"
   },
