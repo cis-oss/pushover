@@ -4,6 +4,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "target": "es2022",
+    "sourceMap": true,
     "allowJs": true,
     "resolveJsonModule": true,
     "moduleDetection": "force",
@@ -11,6 +12,7 @@
 
     /* Strictness */
     "strict": true,
+    "strictNullChecks": true,
     "noUncheckedIndexedAccess": true,
     "checkJs": true,
 
@@ -20,6 +22,7 @@
     "moduleResolution": "node",
     "incremental": true,
     "outDir": "dist",
+    "declaration": true,
 
     /* Path Aliases */
     "baseUrl": "./src",
@@ -27,6 +30,6 @@
       "~/*": ["./src/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.js"],
-  "exclude": ["node_modules", "docs", "dist"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules/**/*", "docs/**/*", "dist/**/*"]
 }
