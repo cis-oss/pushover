@@ -80,6 +80,18 @@
     "*.{js,ts,jsx,tsx}": "eslint --cache --fix .",
     "*.{js,ts,jsx,tsx,json,css,md}": "prettier --write"
   },
+  "maintainers": [
+    {
+      "name": "Alix von Schirp",
+      "email": "hi@b00tload.space",
+      "url": "https://b00tload.space"
+    },
+    {
+      "name": "Ole",
+      "email": "jateute123@gmail.com",
+      "url": "https://github.com/jateute"
+    }
+  ],
   "packageManager": "pnpm@10.6.5",
   "publishConfig": {
     "main": "dist/index.js",
