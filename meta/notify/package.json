@@ -1,0 +1,90 @@
+{
+  "name": "@cis-oss/notify",
+  "description": "Send push notifications to your users. Meta package wrapping several @cis-oss packages. See README.md for more information.",
+  "homepage": "https://cis-oss.github.io/notify",
+  "version": "0.0.1",
+  "main": "src/index.ts",
+  "author": {
+    "email": "hi@b00tload.space",
+    "name": "Alix von Schirp",
+    "url": "https://b00tload.space"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cis-oss/pushover.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cis-oss/pushover/issues"
+  },
+  "keywords": [
+    "mobile",
+    "notification",
+    "notifications",
+    "push",
+    "pushover"
+  ],
+  "dependencies": {
+    "@cis-oss/pushover": "workspace:"
+  },
+  "devDependencies": {
+    "@repo/configs": "workspace:",
+    "@eslint/js": "^9.22.0",
+    "@shipgirl/typedoc-plugin-versions": "^0.3.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.13.10",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-only-warn": "^1.1.0",
+    "globals": "^16.0.0",
+    "jest": "^29.7.0",
+    "shx": "^0.4.0",
+    "ts-jest": "^29.2.6",
+    "tsx": "^4.19.3",
+    "typedoc": "^0.27.9",
+    "typedoc-github-theme": "^0.2.1",
+    "typedoc-plugin-coverage": "^3.4.1",
+    "typedoc-plugin-extras": "^4.0.0",
+    "typedoc-plugin-include-example": "^2.0.2",
+    "typedoc-plugin-inline-sources": "^1.2.1",
+    "typedoc-plugin-mdn-links": "^5.0.1",
+    "typedoc-plugin-zod": "^1.4.0",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.26.0"
+  },
+  "files": [
+    "dist/**/*.{js,ts,map}"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "check": "pnpm run lint:ci && pnpm run typecheck",
+    "clean": "shx rm -rf dist/",
+    "docs:generate": "typedoc",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "lint:ci": "eslint --max-warnings 0",
+    "prepublishOnly": "pnpm run clean && pnpm run build",
+    "test": "jest",
+    "typecheck": "tsc --noEmit"
+  },
+  "private": true,
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "Alix von Schirp",
+      "email": "hi@b00tload.space",
+      "url": "https://b00tload.space"
+    },
+    {
+      "name": "Ole",
+      "email": "jateute123@gmail.com",
+      "url": "https://github.com/jateute"
+    }
+  ],
+  "packageManager": "pnpm@10.6.5",
+  "publishConfig": {
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts"
+  },
+  "type": "module"
+}
