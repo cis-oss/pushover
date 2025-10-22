@@ -12,6 +12,7 @@ import type {
 } from "./Pushover";
 
 export default Pushover;
+export { Pushover };
 
 export type {
   PushoverRecipient,

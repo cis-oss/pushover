@@ -1,0 +1,7 @@
+packages:
+  - meta/*
+  - packages/*
+  - config
+
+
+catalogMode: prefer

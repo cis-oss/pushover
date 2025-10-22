@@ -1,0 +1,32 @@
+{
+  "name": "@repo/configs",
+  "version": "0.0.0",
+  "exports": {
+    "./eslint": "./eslint.config.mjs",
+    "./jest": "./jest.config.mjs",
+    "./typedoc": "./typedoc.config.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "@shipgirl/typedoc-plugin-versions": "^0.3.0",
+    "@types/jest": "^29.5.14",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-only-warn": "^1.1.0",
+    "globals": "^16.4.0",
+    "jest": "^29.7.0",
+    "prettier": "3.5.3",
+    "ts-jest": "^29.2.6",
+    "typedoc": "^0.27.9",
+    "typedoc-github-theme": "^0.2.1",
+    "typedoc-plugin-coverage": "^3.4.1",
+    "typedoc-plugin-extras": "^4.0.0",
+    "typedoc-plugin-include-example": "^2.0.2",
+    "typedoc-plugin-inline-sources": "^1.2.1",
+    "typedoc-plugin-mdn-links": "^5.0.1",
+    "typedoc-plugin-zod": "^1.4.0",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.26.0"
+  },
+  "private": true
+}

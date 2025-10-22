@@ -1,0 +1,12 @@
+{
+  "extends": "@repo/configs/tsconfig.json",
+  "compilerOptions": {
+    /* Path Aliases */
+    "baseUrl": "./src",
+    "paths": {
+      "~/*": ["./src/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules/**/*", "docs/**/*", "dist/**/*"]
+}
